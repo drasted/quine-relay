@@ -1,5 +1,7 @@
 FROM ubuntu:15.10
 ENV PATH /usr/games:$PATH
+ADD . /usr/local/share/quine-relay
+WORKDIR /usr/local/share/quine-relay
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y afnix              && apt-get clean && \
     apt-get install -y algol68g           && apt-get clean && \
@@ -93,12 +95,10 @@ RUN apt-get install -y afnix              && apt-get clean && \
     apt-get install -y valac              && apt-get clean && \
     apt-get install -y xsltproc           && apt-get clean && \
     apt-get install -y yorick             && apt-get clean && \
-    echo "apt-get install -y zoem" && sudo mount && echo && df -h && echo && sudo du -sm /* ; \
+    echo "apt-get install -y zoem" && mount && echo && df -h && echo && du -sm /* ; \
     apt-get install -y zoem               && \
-    echo "apt-get clean" && df -h && echo && sudo du -sm /* ; \
+    echo "apt-get clean" && df -h && echo && du -sm /* ; \
     apt-get clean && \
-    echo "apt-get finished" && df -h && echo && sudo du -sm /* ; echo "end"
-ADD . /usr/local/share/quine-relay
-WORKDIR /usr/local/share/quine-relay
-RUN make -C vendor
+    echo "apt-get finished" && df -h && echo && du -sm /* ; echo "end"
+RUN echo "make -C vendor"; make -C vendor
 CMD make CC=tcc check
