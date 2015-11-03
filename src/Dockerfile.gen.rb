@@ -8,14 +8,16 @@ apts = [*apts.flatten.compact.uniq, *other_packages].sort
 dockerfile = []
 dockerfile << "FROM ubuntu:15.10"
 dockerfile << "ENV PATH /usr/games:$PATH"
-dockerfile << "RUN apt-get update && apt-get upgrade -y"
-
-apt_width = apts.map {|apt| apt.size}.max
-dockerfile << "RUN " + apts.map do |apt|
-  "apt-get install -y #{apt}#{" " * (apt_width - apt.size)} && apt-get clean"
-end.join(" && \\\n    ")
 dockerfile << "ADD . /usr/local/share/quine-relay"
 dockerfile << "WORKDIR /usr/local/share/quine-relay"
+dockerfile << "RUN apt-get update && apt-get upgrade -y"
+dockerfile << "RUN mount"
+
+apts.each do |apt|
+  dockerfile << "RUN apt-get install -y #{ apt }"
+  dockerfile << "RUN apt-get clean"
+  dockerfile << "RUN du /*"
+end
 dockerfile << "RUN make -C vendor"
 dockerfile << "CMD make CC=tcc check"
 
