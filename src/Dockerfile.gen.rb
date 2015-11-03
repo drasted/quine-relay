@@ -16,7 +16,7 @@ dockerfile << "RUN mount"
 apts.each do |apt|
   dockerfile << "RUN apt-get install -y #{ apt }"
   dockerfile << "RUN apt-get clean"
-  dockerfile << "RUN du /*"
+  dockerfile << "RUN df -h"
 end
 dockerfile << "RUN make -C vendor"
 dockerfile << "CMD make CC=tcc check"
