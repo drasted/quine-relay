@@ -14,9 +14,7 @@ dockerfile << "RUN apt-get update && apt-get upgrade -y"
 dockerfile << "RUN mount"
 
 apts.each do |apt|
-  dockerfile << "RUN apt-get install -y #{ apt }"
-  dockerfile << "RUN apt-get clean"
-  dockerfile << "RUN df -h"
+  dockerfile << "RUN apt-get install -y #{ apt } && apt-get clean && df -h"
 end
 dockerfile << "RUN make -C vendor"
 dockerfile << "CMD make CC=tcc check"
