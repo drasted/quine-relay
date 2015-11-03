@@ -93,11 +93,11 @@ RUN apt-get install -y afnix              && apt-get clean && \
     apt-get install -y valac              && apt-get clean && \
     apt-get install -y xsltproc           && apt-get clean && \
     apt-get install -y yorick             && apt-get clean && \
-    echo "apt-get install -y zoem" && df -h && echo && du -sm /* && \
+    echo "apt-get install -y zoem" && sudo mount && echo && df -h && echo && sudo du -sm /* ; \
     apt-get install -y zoem               && \
-    echo "apt-get clean" && df -h && echo && du -sm /* && \
+    echo "apt-get clean" && df -h && echo && sudo du -sm /* ; \
     apt-get clean && \
-    echo "apt-get finished" && df -h && echo && du -sm /*
+    echo "apt-get finished" && df -h && echo && sudo du -sm /* ; echo "end"
 ADD . /usr/local/share/quine-relay
 WORKDIR /usr/local/share/quine-relay
 RUN make -C vendor
